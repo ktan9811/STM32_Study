@@ -5,9 +5,19 @@
  *      Author: IOT
  */
 
-#ifndef INC_IO_H_
-#define INC_IO_H_
+#ifndef SRC_IO_H_
+#define SRC_IO_H_
 
+#include <stdbool.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-#endif /* INC_IO_H_ */
+int __io_putchar(int ch);
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif /* SRC_IO_H_ */
