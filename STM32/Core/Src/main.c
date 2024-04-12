@@ -78,7 +78,7 @@ static void MX_USB_OTG_FS_PCD_Init(void);
   * @brief  The application entry point.
   * @retval int
   */
-int main(void)
+int main(int argc, char* argv[])
 {
 
   /* USER CODE BEGIN 1 */

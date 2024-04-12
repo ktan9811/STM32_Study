@@ -2,55 +2,69 @@
  * app.c
  *
  *  Created on: Apr 11, 2024
- *      Author: IOT
+ *      Author: iot00
  */
-#include "main.h"
+#include <stdio.h>
+#include "io.h"
+#include "polling.h"
 #include "button.h"
+#include "uart.h"
+#include "cli.h"
 #include "app.h"
 
-void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+void app_init(void);
+void app_mode(int mode);
+static void app_normal(void);
+static void app_diagnostic(void);
+
+static void (*mode_func)(void);
+
+
+void app(void)
 {
-  /* Prevent unused argument(s) compilation warning */
-  //UNUSED(GPIO_Pin);
-  HAL_GPIO_TogglePin(LD1_GPIO_Port, LD1_Pin);
-  /* NOTE: This function Should not be modified, when the callback is needed,
-           the HAL_GPIO_EXTI_Callback could be implemented in the user file
-   */
-}
-void button_callback(void *arg)
-{
-	HAL_GPIO_TogglePin(LD1_GPIO_Port, LD1_Pin);
-}
+	printf("System Started.....!\r\n");
 
-typedef struct {
-	uint32_t period, count;
-	bool flag;
-	void (*cbf)(void);
-} THR_T; // thread type
+	mode_func = app_normal;
 
-volatile THR_T gThrObjs[]  = {
-	{ .period = 1, 		.cbf = NULL	},
-	{ .period = 500, 	.cbf = NULL		},
-	{ .cbf = NULL			}
-};
+	app_init();
 
-static void init(void){
-	button_regcbf(0, button_callback);
-}
-
-void app(void){
-	init();
-	while(1){
-		// Check Thread
-		{
-			if (gThrObjs[thr_idx].flag == true) {						// if flag True -> exe
-						gThrObjs[thr_idx].flag = false;
-						gThrObjs[thr_idx].cbf();
-			}
-
-			thr_idx++;
-			if (gThrObjs[thr_idx].cbf == NULL) thr_idx = 0;
-		}
-
+	while (1) {
+		mode_func();
 	}
 }
+
+void app_init(void)
+{
+	io_exti_init();
+	polling_init();
+	button_init();
+	uart_init();
+	cli_init();
+}
+
+void app_normal(void)
+{
+	polling_thread(NULL);
+	button_thread(NULL);
+	uart_thread(NULL);
+	cli_thread(NULL);
+}
+
+void app_diagnostic(void)
+{
+	uart_thread(NULL);
+	cli_thread(NULL);
+}
+
+void app_mode(int mode)
+{
+	if (mode == 0) {
+		printf("Mode : Normal \r\n");
+		mode_func = app_normal;
+	} else {
+		printf("Mode : Diagnostic \r\n");
+		mode_func = app_diagnostic;
+	}
+}
+
+
