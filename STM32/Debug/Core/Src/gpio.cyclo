@@ -1,0 +1,4 @@
+../Core/Src/gpio.c:15:6:io_exti_init	2
+../Core/Src/gpio.c:27:6:io_exti_regcbf	2
+../Core/Src/gpio.c:34:6:HAL_GPIO_EXTI_Callback	3
+../Core/Src/gpio.c:42:13:io_exti_dummy	1

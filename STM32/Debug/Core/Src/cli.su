@@ -1,0 +1,11 @@
+../Core/Src/cli.c:56:12:cli_btn_uart	16	static
+../Core/Src/cli.c:70:12:cli_duty	24	static
+../Core/Src/cli.c:86:12:cli_dump	48	static
+../Core/Src/cli.c:127:12:cli_mode	24	static
+../Core/Src/cli.c:140:12:cli_led	32	static
+../Core/Src/cli.c:159:12:cli_echo	16	static
+../Core/Src/cli.c:170:12:cli_help	24	static
+../Core/Src/cli.c:184:6:cli_thread	24	static
+../Core/Src/cli.c:200:6:cli_init	8	static
+../Core/Src/cli.c:217:13:cli_event_set	24	static
+../Core/Src/cli.c:229:13:cli_parser	72	static

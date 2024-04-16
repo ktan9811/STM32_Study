@@ -1,1 +1,1 @@
-../Core/Src/io.c:13:5:__io_putchar	16	static
+../Core/Src/io.c:19:5:_write	24	static
